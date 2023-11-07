@@ -1,0 +1,16 @@
+{% load static %}
+<div class="col-md-3 col-6 copied-section" id="draft-contact">
+    <div class="h-100">
+        <h6 class="fw-bold">Draft and Contact</h6>
+        <div class="border rounded-3 clac-height">
+            <div id="copy-link" class="p-2 copy-link">
+                {{ contact_info }}
+                <a><img src="{% static 'assets/images/copy-url.png' %}" alt="copy-url"></a>
+            </div>
+            <div id="copy-email" class="border-top p-2 copy-email">
+                {{ draft }}
+                <a><img src="{% static 'assets/images/copy-url.png' %}" alt="copy-url"></a>
+            </div>
+        </div>
+    </div>
+</div>

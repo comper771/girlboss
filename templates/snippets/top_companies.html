@@ -1,0 +1,18 @@
+{% load static %}
+<div class="col-md-3 col-6" id="top_companies">
+    <h6 class="fw-bold">Current Top Companies</h6>
+    <table class="table">
+        <tbody>
+        {% for company in top_companies %}
+            <tr>
+                <td>
+                    <label class="labl">
+                        <input hx-get="{% url 'contact_and_draft' %}" hx-target="#draft-contact" hx-swap="outerHTML" type="radio" name="company_name" value="{{ company }}"/>
+                        <div>{{ company }}</div>
+                    </label>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

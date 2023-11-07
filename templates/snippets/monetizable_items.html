@@ -1,0 +1,21 @@
+{% load static %}
+<div class="col-md-3 col-6" id="monetizable_items">
+    <div class="table-responsive">
+        <h6 class="fw-bold">Monetizable Elements</h6>
+        <table class="table">
+            <tbody>
+            {% for monetizable_item in monetizable_items %}
+                <tr>
+                    <td>
+                        <label class="labl">
+                            <input hx-get="{% url 'get_company_types' monetizable_item %}" hx-target="#company_genres"
+                                   hx-swap="outerHTML" type="radio" name="item_name" value="{{ monetizable_item }}"/>
+                            <div>{{ monetizable_item }}</div>
+                        </label>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

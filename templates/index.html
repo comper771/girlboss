@@ -1,0 +1,228 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>index</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'assets/css/stylesheet.css' %}">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="../static/assets/images/logo.jpg" style="height: 50px; width: 50px;" alt="Your Logo">
+        </a>
+        <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" aria-current="page">Home <span
+                            class="visually-hidden">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container my-5">
+    <div class="cont-wrap">
+        <form id="article-form" hx-post="{% url 'create_article' %}" hx-target="#monetizable_items" hx-swap="outerHTML">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_content" class="form-label text-center w-100">Enter Article Below</label>
+                <textarea class="form-control rounded-4" name="content" id="id_content" rows="10"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mx-auto d-block">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="container">
+    <div class="d-none overlay" id="loader">
+        <div class="custom-loader-spinner">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    </div>
+    <div class="row" id="card_row">
+        <div class="col-md-3 col-6 d-none" id="monetizable_items">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Monetizable Elements</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-3 col-6 d-none" id="company_genres">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Company Genre</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3 col-6 d-none" id="top_companies">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Current Top Companies</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-3 col-6 copied-section d-none" id="draft-contact">
+            <h6>Draft and Contact</h6>
+            <div id="copy-link" class="border p-2 rounded-3 mb-2 copy-link">
+                http://127.0.0.1:5500/index.html
+                <a href=""><img src="{% static 'assets/images/copy-url.png' %}" alt="copy-url"></a>
+            </div>
+            <div id="copy-email" class="border p-2 rounded-3 copy-email">
+                http://127.0.0.1:5500/index.html
+                <a href=""><img src="{% static 'assets/images/copy-url.png' %}" alt="copy-url"></a>
+            </div>
+        </div>
+
+        <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+            <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-body" id="toast_body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<main>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"></script>
+{#<script src="https://unpkg.com/htmx.org@1.9.6"></script>#}
+<script src="{% static 'js/htmx.min.js' %}"></script>
+<script>
+    // copy text from copy-link div to clipboard on click of copy button
+    let toastElement = document.querySelector("#liveToast");
+    let toastBody = document.querySelector("#toast_body");
+    let toast = new bootstrap.Toast(toastElement);
+
+    function addCopyFunctionality() {
+        let copyLink = document.querySelector("#copy-link");
+        let copyEmail = document.querySelector("#copy-email");
+        let copyLinkBtn = document.querySelector("#copy-link a");
+        let copyEmailBtn = document.querySelector("#copy-email a");
+        toastBody.innerText = "Copied to clipboard";
+        copyLinkBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const copyText = copyLink.innerText;
+            navigator.clipboard.writeText(copyText);
+            // show a toast message on copy
+            toast.show();
+        });
+        copyEmailBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            const copyText = copyEmail.innerText;
+            navigator.clipboard.writeText(copyText);
+            // show a toast message on copy
+            toast.show();
+        });
+    }
+
+    // display a loader on htmx request and disable on htmx response
+    document.body.addEventListener('htmx:configRequest', function (evt) {
+        const loader = document.querySelector("#loader");
+        loader.classList.remove("d-none");
+    });
+    document.body.addEventListener('htmx:afterRequest', function (evt) {
+        const loader = document.querySelector("#loader");
+        loader.classList.add("d-none");
+        addCopyFunctionality();
+    });
+    document.body.addEventListener("create_article", function (evt) {
+        let companyGenres = document.querySelector("#company_genres");
+        let topCompanies = document.querySelector("#top_companies");
+        let draftContact = document.querySelector("#draft-contact");
+        // check if these elements have d-none class if not add it
+        if (!companyGenres.classList.contains("d-none")) {
+            companyGenres.classList.add("d-none");
+        }
+        if (!topCompanies.classList.contains("d-none")) {
+            topCompanies.classList.add("d-none");
+        }
+        if (!draftContact.classList.contains("d-none")) {
+            draftContact.classList.add("d-none");
+        }
+    })
+
+    // htmx beforeSend to set class d-none
+    document.body.addEventListener('htmx:beforeSend', function (evt) {
+        let event_id = evt.detail.target.id;
+        let monetizableItems = document.querySelector("#monetizable_items");
+        let companyGenres = document.querySelector("#company_genres");
+        let topCompanies = document.querySelector("#top_companies");
+        let draftContact = document.querySelector("#draft-contact");
+
+        if (event_id === 'monetizable_elements') {
+            if (!monetizableItems.classList.contains("d-none")) {
+                monetizableItems.classList.add("d-none");
+            }
+            if (!companyGenres.classList.contains("d-none")) {
+                companyGenres.classList.add("d-none");
+            }
+            if (!topCompanies.classList.contains("d-none")) {
+                topCompanies.classList.add("d-none");
+            }
+            if (!draftContact.classList.contains("d-none")) {
+                draftContact.classList.add("d-none");
+            }
+        }
+        else if (event_id === 'company_genres') {
+            if (!companyGenres.classList.contains("d-none")) {
+                companyGenres.classList.add("d-none");
+            }
+            if (!topCompanies.classList.contains("d-none")) {
+                topCompanies.classList.add("d-none");
+            }
+            if (!draftContact.classList.contains("d-none")) {
+                draftContact.classList.add("d-none");
+            }
+        }
+        else if (event_id === 'top_companies') {
+            if (!topCompanies.classList.contains("d-none")) {
+                topCompanies.classList.add("d-none");
+            }
+            if (!draftContact.classList.contains("d-none")) {
+                draftContact.classList.add("d-none");
+            }
+        }
+        else if (event_id === 'draft-contact') {
+            if (!draftContact.classList.contains("d-none")) {
+                draftContact.classList.add("d-none");
+            }
+        }
+    });
+</script>
+<script>
+    document.body.addEventListener('htmx:afterRequest', function (evt) {
+        const form = document.querySelector("#article-form");
+        form.reset();
+    });
+</script>
+</body>
+
+</html>
