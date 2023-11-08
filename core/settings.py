@@ -11,10 +11,13 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-
+import os
+import dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -127,6 +130,6 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # OPENAI_API_KEY = "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"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = os.getenv('openAIAPIKey')
 GPT_MODEL = "gpt-3.5-turbo-0613"
 # GPT_MODEL = "gpt-4-0613"
