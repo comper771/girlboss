@@ -64,7 +64,12 @@ def get_gpt_function():
                     },
                     "draft": {
                         "type": "string",
-                        "description": "A draft email to the provided company"
+                        "description": "Write a draft email to the selected company in the following format:"
+                                       "(Insert name of company contact),I’m on the Harvard Lampoon’s Business "
+                                       "board, we are the oldest humor magazine in the country. I have an article "
+                                       "that {Summarize the article pasted} and it mentions services and products "
+                                       "related to your business. We want to have a humorous, article specific, "
+                                       "ad on our website. Would you be interested in working with us? Cheers,"
                     },
                 }
             }

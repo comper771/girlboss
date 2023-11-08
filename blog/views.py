@@ -84,7 +84,8 @@ class ContactAndDraftView(TemplateView):
     def get(self, request, *args, **kwargs):
         company_name = request.GET.get('company_name')
         # Prompt to generate a list of business types related to the monetizable item
-        prompt = (f"Please draft an email to the following company: '{company_name}' offering to work with them to have an article specific ad on a specific page,"
+        prompt = (f"Please draft an email to the following company: '{company_name}' offering to work with them to "
+                  f"have an article specific ad on a specific page,"
                   f" also find the contact us page link for the company and provide it to me.")
         # response = gpt_functionless_request(prompt)
         response = gpt_turbo_model_request(prompt, function_id=3)
