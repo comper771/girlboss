@@ -127,6 +127,6 @@ MEDIA_URL = '/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # OPENAI_API_KEY = "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"
-OPENAI_API_KEY = "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"
+OPENAI_API_KEY = "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"
 GPT_MODEL = "gpt-3.5-turbo-0613"
 # GPT_MODEL = "gpt-4-0613"
